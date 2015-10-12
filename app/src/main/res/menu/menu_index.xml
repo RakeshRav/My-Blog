@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.galaxy.myblog.IndexActivity">
+    <item android:id="@+id/action_logout" android:title="@string/action_logout"
+        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/action_my_blogs" android:title="@string/action_my_blogs"
+        android:orderInCategory="1" app:showAsAction="never" />
+
+    <item android:id="@+id/action_search_user" android:title="@string/action_search_user"
+        android:orderInCategory="1" app:showAsAction="never" />
+
+</menu>

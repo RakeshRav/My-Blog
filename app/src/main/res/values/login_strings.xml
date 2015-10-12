@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email Address</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Signup</string>
+    <string name="logout_button">Logout</string>
+    <string name="password_button">Reset Password</string>
+
+</resources>
