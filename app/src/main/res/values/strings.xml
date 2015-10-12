@@ -14,6 +14,7 @@
     <string name="title_activity_search_users">SearchUsersActivity</string>
     <string name="title_activity_password_reset">PasswordReset</string>
     <string name="title_activity_blog_details">BlogDetailsActivity</string>
+    <string name="title_activity_user_details">UserDetailsActivity</string>
 
 
 

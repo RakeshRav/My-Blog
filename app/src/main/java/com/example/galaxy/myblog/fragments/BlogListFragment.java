@@ -26,6 +26,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class BlogListFragment extends Fragment
 
     ListView listView;
     TextView msg;
-
+    ParseUser user;
     List<ParseObject> parseObjects;
     ProgressDialog dialog;
 
@@ -56,6 +57,8 @@ public class BlogListFragment extends Fragment
        View blogList = inflater.inflate(R.layout.blog_list_fragment, container,false);
         listView = (ListView) blogList.findViewById(R.id.blog_list_items);
         msg = (TextView) blogList.findViewById(R.id.connection);
+
+        user = ParseUser.getCurrentUser();
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -78,13 +81,16 @@ public class BlogListFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
-                String title = parseObjects.get(position).get("title").toString();
+//
+//                String title = parseObjects.get(position).get("title").toString();
+                String objectId = parseObjects.get(position).getObjectId();
+//                Date create = (Date) parseObjects.get(position).get("createdAt");
 
+//                Toast.makeText(getActivity(), ""+objectId, Toast.LENGTH_SHORT).show();
 //                parseObjects.get(position).deleteInBackground();
 //                    refresh();
                   Intent i = new Intent(getActivity(), BlogDetailsActivity.class);
-                i.putExtra("title",title);
+                i.putExtra("objectId",objectId);
                 startActivity(i);
             }
         });
@@ -101,9 +107,12 @@ public class BlogListFragment extends Fragment
 //            Log.i("Network","Connected");
         ParseQuery<ParseObject> blogQuery = new ParseQuery<ParseObject>("Blog");
 
+        blogQuery.whereEqualTo("user",user.getUsername());
+
         parseObjects = null;
 
         dialog = ProgressDialog.show(getActivity(),"My Blogs","Finding Your Blogs....",true,false);
+
             blogQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {

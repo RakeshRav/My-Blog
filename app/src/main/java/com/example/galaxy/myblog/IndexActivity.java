@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -65,21 +66,35 @@ public class IndexActivity extends AppCompatActivity {
                     ParseObject parseObject = new ParseObject("Blog");
 
                     parseObject.put("title", titletxt);
-                    parseObject.put("content",contenttxt);
+                    parseObject.put("content", contenttxt);
                     parseObject.put("user", username);
+                    ParseACL parseACL = new ParseACL();
+                    parseACL.setPublicReadAccess(true);
+                    parseACL.setPublicWriteAccess(true);
+                    parseObject.setACL(parseACL);
                     user.put("blogs", blogs);
 
-
-                    dialog = ProgressDialog.show(getApplicationContext(),"Posting your blog","Please wait....",true,false);
+                    dialog = ProgressDialog.show(IndexActivity.this,"Posting your blog","Please wait....",true,false);
                     user.saveInBackground();
                     parseObject.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            Toast.makeText(IndexActivity.this, "Successfully Posted", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(IndexActivity.this, MyBlogActivity.class);
-                            startActivity(i);
-                            finish();
+
                             dialog.dismiss();
+                            if (e == null)
+                            {
+
+                                Toast.makeText(IndexActivity.this, "Successfully Posted", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(IndexActivity.this, MyBlogActivity.class);
+                                startActivity(i);
+                                finish();
+
+                            }
+                            else {
+                                e.printStackTrace();
+                            }
+
+
                         }
                     });
 

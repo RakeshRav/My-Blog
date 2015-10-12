@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BlogDetailsActivity extends AppCompatActivity {
 
-    String titleObj;
+    String objectId;
     List<ParseObject> parseObjects = null;
 
     TextView title,content;
@@ -32,11 +32,11 @@ public class BlogDetailsActivity extends AppCompatActivity {
         content = (TextView) findViewById(R.id.content_blog);
 
         Intent i = getIntent();
-        titleObj = i.getStringExtra("title");
+        objectId = i.getStringExtra("objectId");
 
         ParseQuery<ParseObject> parseQuery = new ParseQuery<ParseObject>("Blog");
 
-        parseQuery.whereEqualTo("title", titleObj);
+        parseQuery.whereEqualTo("objectId", objectId);
 
         dialog = ProgressDialog.show(BlogDetailsActivity.this,"Blog","Loading Details",true,false);
 
@@ -52,11 +52,6 @@ public class BlogDetailsActivity extends AppCompatActivity {
                    dialog.dismiss();
                }
            });
-
-
-
-
-
 
     }
 

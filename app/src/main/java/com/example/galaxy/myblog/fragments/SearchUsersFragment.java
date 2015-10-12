@@ -1,18 +1,22 @@
 package com.example.galaxy.myblog.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.galaxy.myblog.R;
+import com.example.galaxy.myblog.UserDetailsActivity;
+import com.example.galaxy.myblog.constants.UserConastants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -32,7 +36,7 @@ public class SearchUsersFragment extends Fragment
     ListView listView;
     SearchView searchView;
     ParseQuery<ParseUser> query,querySearch;
-    ParseUser currentUser;
+    ParseUser currentUser,listParseUser;
     ProgressDialog dialog;
 
     @Nullable
@@ -52,6 +56,7 @@ public class SearchUsersFragment extends Fragment
         query = ParseUser.getQuery();
 
         query.whereNotEqualTo("username",currentUser.getUsername());
+        query.addDescendingOrder("blogs");
 
 
         dialog = ProgressDialog.show(getActivity(),"Users","Loading Users....",true,false);
@@ -77,44 +82,56 @@ public class SearchUsersFragment extends Fragment
             @Override
             public boolean onQueryTextChange(String querytxt) {
 
-                String regex = "%"+querytxt+"%";
+                String regex = "%" + querytxt + "%";
 //                Toast.makeText(getActivity(), ""+regex, Toast.LENGTH_SHORT).show();
 
-                if (!querytxt.equals(""))
-                {
+                if (!querytxt.equals("")) {
                     querySearch = ParseUser.getQuery();
-                    querySearch.whereNotEqualTo("username",currentUser.getUsername());
-                    querySearch.whereContains("username",querytxt);
+                    querySearch.whereNotEqualTo("username", currentUser.getUsername());
+                    querySearch.whereContains("username", querytxt);
 
                     try {
 
                         parseSearch = querySearch.find();
 
-                        if (parseSearch.size()>0)
-                        {
+                        if (parseSearch.size() > 0) {
                             msgLayout.setVisibility(View.GONE);
                             listView.setVisibility(View.VISIBLE);
 //                            Toast.makeText(getActivity(), "Users : "+parseSearch.size()+" Found", Toast.LENGTH_SHORT).show();
 
-                            SearchUserAdapter adapter = new SearchUserAdapter(getActivity(),parseSearch);
+                            SearchUserAdapter adapter = new SearchUserAdapter(getActivity(), parseSearch);
                             listView.setAdapter(adapter);
-                        }
-                        else {
+                        } else {
                             listView.setVisibility(View.GONE);
                             msgLayout.setVisibility(View.VISIBLE);
 //                            Toast.makeText(getActivity(), "No Users Found", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
-                    catch (ParseException e) {
+                    } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
-                }
-                else {
+                } else {
                     listUsers();
                 }
                 return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String name,email;
+                listParseUser = parseUsers.get(position);
+                name = listParseUser.get("username").toString();
+                email = listParseUser.get("email").toString();
+
+                UserConastants.shared().setName(name);
+                UserConastants.shared().setEmail(email);
+
+                Intent i = new Intent(getActivity(), UserDetailsActivity.class);
+                startActivity(i);
             }
         });
 
