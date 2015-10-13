@@ -2,6 +2,8 @@ package com.example.galaxy.myblog.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import com.example.galaxy.myblog.UserDetailsActivity;
 import com.example.galaxy.myblog.constants.UserConastants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -38,6 +41,8 @@ public class SearchUsersFragment extends Fragment
     ParseQuery<ParseUser> query,querySearch;
     ParseUser currentUser,listParseUser;
     ProgressDialog dialog;
+    Bitmap imageBitmap;
+
 
     @Nullable
     @Override
@@ -50,6 +55,8 @@ public class SearchUsersFragment extends Fragment
         listView = (ListView) userView.findViewById(R.id.user_list);
 
         searchView = (SearchView) userView.findViewById(R.id.searchView);
+        searchView.setIconifiedByDefault(true);
+        searchView.setIconified(false);
 
         currentUser = ParseUser.getCurrentUser();
 
@@ -127,8 +134,17 @@ public class SearchUsersFragment extends Fragment
                 name = listParseUser.get("username").toString();
                 email = listParseUser.get("email").toString();
 
+                ParseFile file = (ParseFile)listParseUser.get("photo_thumb");
+                try {
+                    byte[] image = file.getData();
+                    imageBitmap = BitmapFactory.decodeByteArray(image,0,image.length);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 UserConastants.shared().setName(name);
                 UserConastants.shared().setEmail(email);
+                UserConastants.shared().setImageBitmap(imageBitmap);
 
                 Intent i = new Intent(getActivity(), UserDetailsActivity.class);
                 startActivity(i);

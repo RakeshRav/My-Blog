@@ -8,5 +8,6 @@
     <string name="signup_button">Signup</string>
     <string name="logout_button">Logout</string>
     <string name="password_button">Reset Password</string>
+    <string name="upload_button">Upload Image</string>
 
 </resources>

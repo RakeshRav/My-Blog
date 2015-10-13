@@ -22,6 +22,9 @@ public class SignupActivity extends AppCompatActivity {
     Button signup;
     String usertxt,emailtxt,passtxt;
     ProgressDialog dialog;
+    final int REQUEST_CODE = 100;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,33 +37,28 @@ public class SignupActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordSign);
 
 
-
-
-
-
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 usertxt = username.getText().toString();
                 emailtxt = email.getText().toString();
                 passtxt = password.getText().toString();
 
-                if (usertxt.equals("") || emailtxt.equals("") || passtxt.equals(""))
-                {
+                if (usertxt.equals("") || emailtxt.equals("") || passtxt.equals("")) {
                     Toast.makeText(SignupActivity.this, "Please Enter Valid Credentials", Toast.LENGTH_SHORT).show();
 
                     Toast.makeText(SignupActivity.this, "valid hi h", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     ParseUser user = new ParseUser();
                     user.setUsername(usertxt);
                     user.setPassword(passtxt);
                     user.setEmail(emailtxt);
 
-                    user.put("blogs",0);
+                    user.put("blogs", 0);
 
-                    dialog = ProgressDialog.show(SignupActivity.this,"Signing Up","Please Wait....",true,false);
+                    dialog = ProgressDialog.show(SignupActivity.this, "Signing Up", "Please Wait....", true, false);
 
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
@@ -70,7 +68,7 @@ public class SignupActivity extends AppCompatActivity {
 
                             if (e == null) {
                                 Toast.makeText(SignupActivity.this, "Successfully Signed up", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(SignupActivity.this, MyBlogActivity.class);
+                                Intent i = new Intent(SignupActivity.this, UploadPhotoActivity.class);
                                 startActivity(i);
                                 finish();
                             } else {

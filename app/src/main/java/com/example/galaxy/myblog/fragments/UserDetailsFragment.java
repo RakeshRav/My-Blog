@@ -2,6 +2,7 @@ package com.example.galaxy.myblog.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,8 +36,10 @@ public class UserDetailsFragment extends Fragment
     Button follow;
     List<ParseObject> parseObjects;
     String nameConstant,emailConstant;
+    Bitmap imageBitmap;
     ProgressDialog dialog;
     TextView no_blogs;
+    ImageView image_user;
 
     @Nullable
     @Override
@@ -46,12 +50,15 @@ public class UserDetailsFragment extends Fragment
 
         name = (TextView) view.findViewById(R.id.detail_name);
         email = (TextView) view.findViewById(R.id.detail_email);
+        image_user = (ImageView) view.findViewById(R.id.image_user);
 
         nameConstant = UserConastants.shared().getName();
         emailConstant = UserConastants.shared().getEmail();
+        imageBitmap = UserConastants.shared().getImageBitmap();
 
         name.setText(nameConstant);
         email.setText(emailConstant);
+        image_user.setImageBitmap(imageBitmap);
 
         follow = (Button) view.findViewById(R.id.follow);
 
@@ -89,12 +96,12 @@ public class UserDetailsFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String title = parseObjects.get(position).get("title").toString();
+                String objectId = parseObjects.get(position).getObjectId();
 
 //                parseObjects.get(position).deleteInBackground();
 //                    refresh();
                 Intent i = new Intent(getActivity(), BlogDetailsActivity.class);
-                i.putExtra("title", title);
+                i.putExtra("objectId", objectId);
                 startActivity(i);
             }
         });

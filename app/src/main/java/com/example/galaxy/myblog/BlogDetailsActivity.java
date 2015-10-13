@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -43,7 +44,10 @@ public class BlogDetailsActivity extends AppCompatActivity {
            parseQuery.findInBackground(new FindCallback<ParseObject>() {
                @Override
                public void done(List<ParseObject> objects, ParseException e) {
+
                    parseObjects = objects;
+
+                   Toast.makeText(BlogDetailsActivity.this, ""+objects.size(), Toast.LENGTH_SHORT).show();
                    String titletxt = parseObjects.get(0).get("title").toString();
                    String contenttxt = parseObjects.get(0).get("content").toString();
 

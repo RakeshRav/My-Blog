@@ -1,5 +1,7 @@
 package com.example.galaxy.myblog.constants;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by galaxy on 12/10/15.
  */
@@ -9,6 +11,7 @@ public class UserConastants
 
     public static String name;
     public static String email;
+    public static Bitmap imageBitmap;
 
     public static UserConastants shared()
     {
@@ -33,6 +36,14 @@ public class UserConastants
 
     public static void setEmail(String email) {
         UserConastants.email = email;
+    }
+
+    public static Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public static void setImageBitmap(Bitmap imageBitmap) {
+        UserConastants.imageBitmap = imageBitmap;
     }
 
 

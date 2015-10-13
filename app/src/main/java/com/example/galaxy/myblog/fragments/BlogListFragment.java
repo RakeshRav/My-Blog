@@ -117,6 +117,7 @@ public class BlogListFragment extends Fragment
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
 
+                    dialog.dismiss();
                     parseObjects = objects;
 
                     if (parseObjects.size() > 0) {
@@ -131,7 +132,7 @@ public class BlogListFragment extends Fragment
                         listView.setVisibility(View.GONE);
                     }
 
-                    dialog.dismiss();
+
                 }
             });
 
