@@ -47,6 +47,8 @@ public class UploadPhotoActivity extends AppCompatActivity {
         profile = (ImageView) findViewById(R.id.profile_pic);
 
         Intent i = new Intent(UploadPhotoActivity.this,MyBlogActivity.class);
+        startActivity(i);
+        finish();
 
     }
 
